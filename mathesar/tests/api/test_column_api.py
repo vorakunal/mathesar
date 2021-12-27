@@ -159,6 +159,7 @@ def test_column_create(column_test_table, client):
     )
     assert new_columns_response.json()["count"] == num_columns + 1
     actual_new_col = new_columns_response.json()["results"][-1]
+    assert actual_new_col["id"] == response.json()["id"]
     assert actual_new_col["name"] == name
     assert actual_new_col["type"] == type_
     assert actual_new_col["default"] is None
@@ -278,6 +279,7 @@ def test_column_create_retrieve_options(column_test_table, client, type_, type_o
     )
     assert new_columns_response.json()["count"] == num_columns + 1
     actual_new_col = new_columns_response.json()["results"][-1]
+    assert actual_new_col["id"] == response.json()["id"]
     assert actual_new_col["name"] == name
     assert actual_new_col["type"] == type_
     assert actual_new_col["type_options"] == type_options
@@ -674,6 +676,7 @@ def test_column_destroy(column_test_table, client):
     )
     new_data = new_columns_response.json()
     assert col_one_name not in [col["name"] for col in new_data["results"]]
+    assert column_id not in [col["id"] for col in new_data["results"]]
     assert new_data["count"] == num_columns - 1
 
 
